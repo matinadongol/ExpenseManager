@@ -36,7 +36,7 @@ export default function ExpensesForm({submitButtonLabel, onCancel, onSubmit, def
     }
 
     const amountIsValid = !isNaN(expenseData.amount) && expenseData.amount > 0
-    const dateIsValid = expenseData.date.toString() === 'Invalid Date'
+    const dateIsValid = !isNaN(expenseData.date.getTime())
     const descriptionIsValid = expenseData.description.trim().length > 0
 
     if(!amountIsValid || !dateIsValid || !descriptionIsValid){
