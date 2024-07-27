@@ -10,11 +10,15 @@ import RecentExpenses from "./screens/RecentExpenses";
 import AllExpenses from "./screens/AllExpenses";
 import LoginScreen from "./screens/LoginScreen";
 import SignupScreen from "./screens/SignupScreen";
-import WelcomeScreen from "./screens/WelcomeScreen";
 
 import { GlobalStyles } from "./constants/styles";
 import IconButton from "./components/UI/IconButton";
 import ExpenseContextProvider from "./store/expenses-context";
+import AuthContextProvider, { AuthContext } from "./store/auth-context";
+import { useCallback, useContext, useEffect, useState } from "react";
+import Profile from "./screens/Profile";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as SplashScreen from 'expo-splash-screen';
 
 const Stack = createNativeStackNavigator();
 const BottomTabs = createBottomTabNavigator();
@@ -23,7 +27,7 @@ function AuthStack() {
     <Stack.Navigator
       screenOptions={{
         headerStyle: { backgroundColor: GlobalStyles.colors.backgroundColor },
-        headerTintColor: 'white',
+        headerTintColor: "white",
         contentStyle: { backgroundColor: GlobalStyles.colors.backgroundColor },
       }}
     >
@@ -32,17 +36,38 @@ function AuthStack() {
     </Stack.Navigator>
   );
 }
-function AuthenticatedStack() {
+function ExpenseStack() {
   return (
-    <Stack.Navigator
-      screenOptions={{
-        headerStyle: { backgroundColor: GlobalStyles.colors.backgroundColor },
-        headerTintColor: 'white',
-        contentStyle: { backgroundColor: GlobalStyles.colors.backgroundColor0 },
-      }}
-    >
-      <Stack.Screen name="Welcome" component={WelcomeScreen} />
-    </Stack.Navigator>
+      <Stack.Navigator
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: GlobalStyles.colors.accentColor,
+          },
+          headerTintColor: "#fff",
+        }}
+      >
+        <Stack.Screen
+          name="ExpensesOverview"
+          component={ExpensesOverview}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="ManageExpenses"
+          component={ManageExpenses}
+          options={{
+            presentation: "modal",
+          }}
+        />
+      </Stack.Navigator>
+  );
+}
+function Navigation() {
+  const authCtx = useContext(AuthContext)
+  return (
+    <NavigationContainer>
+      {!authCtx.isAuthenticated && <AuthStack />}
+      {authCtx.isAuthenticated && <ExpenseStack />}
+    </NavigationContainer>
   );
 }
 function ExpensesOverview() {
@@ -94,41 +119,58 @@ function ExpensesOverview() {
           ),
         }}
       />
+      <BottomTabs.Screen
+        name="Profile"
+        component={Profile}
+        options={{
+          title: "Profile",
+          tabBarLabel: "Profile",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="man" size={size} color={color} />
+          ),
+        }}
+      />
     </BottomTabs.Navigator>
   );
+}
+function Root() {
+  const [isTryingLogin, setIsTryingLogin] = useState(true)
+  const authCtx = useContext(AuthContext)
+  useEffect(() => {
+    async function fetchToken(){
+      const storedToken = await AsyncStorage.getItem('token')
+      if(storedToken){
+        authCtx.authenticate(storedToken)
+      }
+      setIsTryingLogin(false)
+      SplashScreen.hideAsync();
+    }
+    fetchToken()
+  }, [])
+  const onLayoutRootView = useCallback(async () => {
+    if (!isTryingLogin) {
+      await SplashScreen.hideAsync(); 
+    }
+  }, [isTryingLogin]);
+
+  if (isTryingLogin) {
+    return null; 
+  }
+  return (
+    <>
+      <ExpenseContextProvider>
+        <Navigation/>
+      </ExpenseContextProvider>
+    </>
+  )
 }
 export default function App() {
   return (
     <>
       <StatusBar style="auto" />
-      <ExpenseContextProvider>
-        <NavigationContainer>
-          <Stack.Navigator
-            screenOptions={{
-              headerStyle: { backgroundColor: GlobalStyles.colors.accentColor },
-              headerTintColor: "#fff",
-            }}
-          >
-            <Stack.Screen 
-              name="LoginOverview" 
-              component={AuthStack} 
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="ExpensesOverview"
-              component={ExpensesOverview}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="ManageExpenses"
-              component={ManageExpenses}
-              options={{
-                presentation: "modal",
-              }}
-            />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </ExpenseContextProvider>
+      <AuthContextProvider>
+        <Root/>
+      </AuthContextProvider>
     </>
   );
 }
