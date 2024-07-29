@@ -22,7 +22,7 @@ export default function ExpensesItem({id, description, amount, date}) {
           <Text style={styles.textBase}>{getFormattedDate(date)}</Text>
         </View>
         <View style={styles.amountContainer}>
-          <Text style={styles.amount}>{amount.toFixed(2)}</Text>
+          <Text style={styles.amount}>${amount.toFixed(2)}</Text>
         </View>
       </View>
     </Pressable>
@@ -35,37 +35,44 @@ const styles = StyleSheet.create({
   },
   expensesItem: {
     padding: 12,
-    marginVertical: 8,
+    marginVertical: 10,
     backgroundColor: GlobalStyles.colors.backgroundColor,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     borderRadius: 6,
     elevation: 3,
-    shadowColor: GlobalStyles.colors.backgroundColor,
+    shadowColor: '#24201b',
     shadowRadius: 4,
     shadowOffset: {width: 1, height: 1},
     shadowOpacity: 0.4
   },
   textBase: {
-    color: GlobalStyles.colors.fontColorForAccent
+    color: GlobalStyles.colors.accentColor,
+    fontSize: 18,
+    letterSpacing: 2,
+    marginTop: 8
   },
   description: {
-    fontSize: 16,
+    fontSize: 22,
     marginBottom: 4,
-    fontWeight: 'bold'
+    fontWeight: '600',
+    letterSpacing: 2
   },
   amountContainer: {
-    paddingHorizontal: 12,
-    paddingVertical: 4,
-    backgroundColor: "#fff",
+    paddingHorizontal: 5,
+    paddingVertical: 10,
+    backgroundColor: GlobalStyles.colors.accentColor,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 4,
-    minWidth: 80
+    minWidth: 80,
+    letterSpacing: 2
   },
   amount:{
     color: GlobalStyles.colors.fontColorForAccent,
-    fontWeight: 'bold'
+    fontWeight: '600',
+    fontSize: 20,
+    minWidth: '25%'
   }
 })

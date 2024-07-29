@@ -20,28 +20,33 @@ export default function Input({label, invalid, style, textInputConfig}){
 const styles = StyleSheet.create({
   inputContainer: {
     marginHorizontal: 4,
-    marginVertical: 8
+    marginVertical: 20
   },
   label: {
     fontSize: 12,
     color: GlobalStyles.colors.accentColor,
-    marginBottom: 4
+    marginBottom: 4,
+    letterSpacing: 2,
+    fontSize: 18
   },
   input: {
-    backgroundColor: GlobalStyles.colors.accentColor,
-    color: GlobalStyles.colors.backgroundColor,
+    backgroundColor: GlobalStyles.colors.inputFieldColor,
+    color: GlobalStyles.colors.fontColor,
     padding: 6,
     borderRadius: 6,
-    fontSize: 18
+    letterSpacing: 2,
+    fontSize: 20,
+    paddingVertical: 12,
+    paddingHorizontal: 16 
   },
   inputMultiline:{
     minHeight: 100,
     textAlignVertical: 'top'
   },
   invalidLabel: {
-    color: "blue"
+    color: GlobalStyles.colors.error
   },
   invalidInput: {
-    color: "red"
+    color: GlobalStyles.colors.highlightInoutField
   }
 })

@@ -16,9 +16,9 @@ import IconButton from "./components/UI/IconButton";
 import ExpenseContextProvider from "./store/expenses-context";
 import AuthContextProvider, { AuthContext } from "./store/auth-context";
 import { useCallback, useContext, useEffect, useState } from "react";
-import Profile from "./screens/Profile";
+import { Settings } from "./screens/Settings";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import * as SplashScreen from 'expo-splash-screen';
+import * as SplashScreen from "expo-splash-screen";
 
 const Stack = createNativeStackNavigator();
 const BottomTabs = createBottomTabNavigator();
@@ -38,31 +38,31 @@ function AuthStack() {
 }
 function ExpenseStack() {
   return (
-      <Stack.Navigator
-        screenOptions={{
-          headerStyle: {
-            backgroundColor: GlobalStyles.colors.accentColor,
-          },
-          headerTintColor: "#fff",
+    <Stack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: GlobalStyles.colors.accentColor,
+        },
+        headerTintColor: GlobalStyles.colors.inputFieldColor,
+      }}
+    >
+      <Stack.Screen
+        name="ExpensesOverview"
+        component={ExpensesOverview}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="ManageExpenses"
+        component={ManageExpenses}
+        options={{
+          presentation: "modal",
         }}
-      >
-        <Stack.Screen
-          name="ExpensesOverview"
-          component={ExpensesOverview}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="ManageExpenses"
-          component={ManageExpenses}
-          options={{
-            presentation: "modal",
-          }}
-        />
-      </Stack.Navigator>
+      />
+    </Stack.Navigator>
   );
 }
 function Navigation() {
-  const authCtx = useContext(AuthContext)
+  const authCtx = useContext(AuthContext);
   return (
     <NavigationContainer>
       {!authCtx.isAuthenticated && <AuthStack />}
@@ -75,9 +75,7 @@ function ExpensesOverview() {
     <BottomTabs.Navigator
       screenOptions={({ navigation }) => ({
         headerStyle: { backgroundColor: GlobalStyles.colors.backgroundColor },
-        headerTintColor: {
-          backgroundColor: GlobalStyles.colors.fontColorForAccent,
-        },
+        headerTintColor: GlobalStyles.colors.fontColor,
         tabBarStyle: { backgroundColor: GlobalStyles.colors.backgroundColor },
         tabBarActiveTintColor: GlobalStyles.colors.accentColor,
         tabBarInactiveTintColor: GlobalStyles.colors.fontColor,
@@ -99,9 +97,9 @@ function ExpensesOverview() {
         component={RecentExpenses}
         options={{
           title: "Recent Expenses",
-          tabBarLabel: "Recent",
+          tabBarLabel: "",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="hourglass" size={size} color={color} />
+            <Ionicons name="time-outline" size={size} color={color} />
           ),
         }}
       />
@@ -110,20 +108,20 @@ function ExpensesOverview() {
         component={AllExpenses}
         options={{
           title: "All Expenses",
-          tabBarLabel: "All",
+          tabBarLabel: "",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="calendar" size={size} color={color} />
+            <Ionicons name="grid-outline" size={size} color={color} />
           ),
         }}
       />
       <BottomTabs.Screen
-        name="Profile"
-        component={Profile}
+        name="Settings"
+        component={Settings}
         options={{
-          title: "Profile",
-          tabBarLabel: "Settings",
+          title: "Settings",
+          tabBarLabel: "",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="settings" size={size} color={color} />
+            <Ionicons name="settings-outline" size={size} color={color} />
           ),
         }}
       />
@@ -131,42 +129,42 @@ function ExpensesOverview() {
   );
 }
 function Root() {
-  const [isTryingLogin, setIsTryingLogin] = useState(true)
-  const authCtx = useContext(AuthContext)
+  const [isTryingLogin, setIsTryingLogin] = useState(true);
+  const authCtx = useContext(AuthContext);
   useEffect(() => {
-    async function fetchToken(){
-      const storedToken = await AsyncStorage.getItem('token')
-      if(storedToken){
-        authCtx.authenticate(storedToken)
+    async function fetchToken() {
+      const storedToken = await AsyncStorage.getItem("token");
+      if (storedToken) {
+        authCtx.authenticate(storedToken);
       }
-      setIsTryingLogin(false)
+      setIsTryingLogin(false);
       SplashScreen.hideAsync();
     }
-    fetchToken()
-  }, [])
+    fetchToken();
+  }, []);
   const onLayoutRootView = useCallback(async () => {
     if (!isTryingLogin) {
-      await SplashScreen.hideAsync(); 
+      await SplashScreen.hideAsync();
     }
   }, [isTryingLogin]);
 
   if (isTryingLogin) {
-    return null; 
+    return null;
   }
   return (
     <>
       <ExpenseContextProvider>
-        <Navigation/>
+        <Navigation />
       </ExpenseContextProvider>
     </>
-  )
+  );
 }
 export default function App() {
   return (
     <>
       <StatusBar style="auto" />
       <AuthContextProvider>
-        <Root/>
+        <Root />
       </AuthContextProvider>
     </>
   );

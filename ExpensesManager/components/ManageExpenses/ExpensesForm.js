@@ -98,13 +98,13 @@ export default function ExpensesForm({submitButtonLabel, onCancel, onSubmit, def
           onChangeText: inputChangeHandler.bind(this, 'description'),
             value: inputs.description.value
         }}
-        style={styles.rowInput}
+        style={styles.rowInputDesc}
         invalid={!inputs.description.isValid}
       />
       {formIsInvalid && <Text style={styles.errorText}>Invalid data entered - Please check your data</Text>}
       <View style={styles.buttons}> 
-        <Button style={styles.button} mode="flat" onPress={onCancel}>Cancel</Button>
-        <Button style={styles.button} mode="flat" onPress={submitHandler}>{submitButtonLabel}</Button>
+        <Button style={styles.cancelButton} mode="flat" onPress={onCancel}><Text style={styles.cancelButtonText}>Cancel</Text></Button>
+        <Button style={styles.addButton} mode="flat" onPress={submitHandler}><Text style={styles.addButtonText}>{submitButtonLabel}</Text></Button>
       </View>
     </View>
 
@@ -114,34 +114,61 @@ export default function ExpensesForm({submitButtonLabel, onCancel, onSubmit, def
 const styles = StyleSheet.create({
   form: {
     flex: 1,
-    marginTop: 40
+    marginTop: 40,
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
     color: GlobalStyles.colors.accentColor,
-    marginVertical: 24
+    marginVertical: 24,
+    letterSpacing: 2
   },
   inputRow: {
     flexDirection: 'row',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    width: '100%'
   },
   rowInput: {
-    flex: 1,
-    marginHorizontal: 4
+    marginHorizontal: 10,
+    width: '45%'
+  },
+  rowInputDesc: {
+    marginHorizontal: 10,
+    height: 150
   },
   errorText: {
     textAlign: 'center',
     color: GlobalStyles.colors.error,
-    margin: 8
+    margin: 8,
+    letterSpacing: 2,
+    fontSize: 16
   },
   buttons: {
+    flex: 1,
     flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center'
+    justifyContent: "space-between",
+    alignItems: 'flex-start'
   },
-  button: {
+  cancelButton: {
     minWidth: 120,
-    marginHorizontal: 8
+    marginHorizontal: 8, 
+    backgroundColor: GlobalStyles.colors.inputFieldColor
+  },
+  cancelButtonText: {
+    color: GlobalStyles.colors.accentColor,
+    fontSize: 18,
+    letterSpacing: 2
+  },
+  addButton: {
+    minWidth: 120,
+    marginHorizontal: 8, 
+    backgroundColor: GlobalStyles.colors.accentColor
+  },
+  addButtonText: {
+    color: GlobalStyles.colors.inputFieldColor,
+    fontSize: 18,
+    letterSpacing: 2,
+    paddingVertical: 12, // Add vertical padding
+    paddingHorizontal: 16 
   }
 })

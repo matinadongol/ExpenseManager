@@ -28,7 +28,9 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: GlobalStyles.colors.fontColorForAccent,
-    textAlign: 'center'
+    textAlign: 'center',
+    paddingVertical: 8, 
+    paddingHorizontal: 16 
   },
   flatText: {
     color: "red"
