@@ -74,22 +74,19 @@ function ExpensesOverview() {
   return (
     <BottomTabs.Navigator
       screenOptions={({ navigation }) => ({
-        headerStyle: { backgroundColor: GlobalStyles.colors.accentColor },
+        headerStyle: { backgroundColor: GlobalStyles.colors.backgroundColor },
         headerTintColor: {
           backgroundColor: GlobalStyles.colors.fontColorForAccent,
         },
-        tabBarStyle: { backgroundColor: GlobalStyles.colors.accentColor },
-        tabBarActiveTintColor: {
-          color: GlobalStyles.colors.fontColorForAccent,
-        },
-        tabBarInactiveTintColor: {
-          color: GlobalStyles.colors.fontColorForAccent,
-        },
-        headerRight: ({ tintColor }) => (
+        tabBarStyle: { backgroundColor: GlobalStyles.colors.backgroundColor },
+        tabBarActiveTintColor: GlobalStyles.colors.accentColor,
+        tabBarInactiveTintColor: GlobalStyles.colors.fontColor,
+        tabBarLabelStyle: { fontSize: 16, marginTop: 5 },
+        headerRight: () => (
           <IconButton
             icon="add"
             size={24}
-            color={tintColor}
+            color={GlobalStyles.colors.fontColor}
             onPress={() => {
               navigation.navigate("ManageExpenses");
             }}
@@ -113,7 +110,7 @@ function ExpensesOverview() {
         component={AllExpenses}
         options={{
           title: "All Expenses",
-          tabBarLabel: "All Expenses",
+          tabBarLabel: "All",
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="calendar" size={size} color={color} />
           ),
@@ -124,9 +121,9 @@ function ExpensesOverview() {
         component={Profile}
         options={{
           title: "Profile",
-          tabBarLabel: "Profile",
+          tabBarLabel: "Settings",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="man" size={size} color={color} />
+            <Ionicons name="settings" size={size} color={color} />
           ),
         }}
       />

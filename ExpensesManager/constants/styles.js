@@ -1,8 +1,11 @@
 export const GlobalStyles = {
   colors: {
-    backgroundColor: '#fff8f7',
-    accentColor: '#ff675c',
-    fontColorForAccent: '#ff1303',
-    error: 'red'
+    backgroundColor: '#56486e',
+    fontColor: '#fff1c9',
+    accentColor: '#e3ca81',
+    fontColorForAccent: '#403822',
+    inputFieldColor: '#766299',
+    error: '#f77502',
+    highlightInoutField: '#807199'
   }
 }

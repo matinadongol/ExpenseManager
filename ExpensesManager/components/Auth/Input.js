@@ -33,20 +33,24 @@ const styles = StyleSheet.create({
     marginVertical: 8,
   },
   label: {
-    color: 'blue',
-    marginBottom: 4,
+    color: GlobalStyles.colors.fontColor,
+    marginBottom: 6,
+    fontSize: 18,
+    letterSpacing: 2
   },
   labelInvalid: {
     color: GlobalStyles.colors.error,
   },
   input: {
-    paddingVertical: 8,
+    paddingVertical: 10,
     paddingHorizontal: 6,
-    backgroundColor: GlobalStyles.colors.accentColor,
+    backgroundColor: GlobalStyles.colors.inputFieldColor,
+    color: GlobalStyles.colors.fontColor,
     borderRadius: 4,
-    fontSize: 16,
+    fontSize: 20,
+    letterSpacing: 2
   },
   inputInvalid: {
-    backgroundColor: GlobalStyles.colors.backgroundColor,
+    backgroundColor: GlobalStyles.colors.highlightInoutField,
   },
 });

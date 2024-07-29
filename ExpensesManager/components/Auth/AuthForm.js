@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
-
+import { StyleSheet, View, Text } from 'react-native';
 import Button from '../UI/Button';
 import Input from './Input';
 
@@ -83,7 +82,7 @@ function AuthForm({ isLogin, onSubmit, credentialsInvalid }) {
         )}
         <View style={styles.buttons}>
           <Button onPress={submitHandler}>
-            {isLogin ? 'Log In' : 'Sign Up'}
+            <Text style={styles.buttonsText}>{isLogin ? 'Log In' : 'Sign Up'}</Text>
           </Button>
         </View>
       </View>
@@ -95,6 +94,13 @@ export default AuthForm;
 
 const styles = StyleSheet.create({
   buttons: {
-    marginTop: 12,
+    marginTop: 30,
+    marginBottom: 20,
+    marginHorizontal: 100
   },
+  buttonsText: {
+    fontSize: 18,
+    lineHeight: 30,
+    letterSpacing: 2
+  }
 });
